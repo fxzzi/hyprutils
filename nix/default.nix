@@ -9,7 +9,7 @@
   doCheck ? false,
   debug ? false,
 }: let
-  inherit (builtins) foldl';
+  inherit (builtins) foldl' path;
   inherit (lib.lists) flatten;
   inherit (lib.strings) optionalString;
 
@@ -23,7 +23,10 @@ in
   customStdenv.mkDerivation {
     pname = "hyprutils" + optionalString debug "-debug";
     inherit version doCheck;
-    src = ../.;
+    src = path {
+      path = ../.;
+      name = "source";
+    };
 
     nativeBuildInputs = [
       cmake
